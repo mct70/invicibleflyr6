@@ -105,7 +105,6 @@ local function gui()
         stopAll()
     end
 
-    -- Butona tıklandığında aç/kapat
     toggleButton.MouseButton1Click:Connect(function()
         isOpen = not isOpen
         if isOpen then
@@ -117,7 +116,6 @@ local function gui()
         end
     end)
 
-    -- Sol Alt tuşuna basıldığında aç/kapat
     UserInputService.InputBegan:Connect(function(input, gameProcessed)
         if gameProcessed then return end 
         if input.KeyCode == targetKey then
@@ -132,9 +130,14 @@ local function gui()
         end
     end)
 
+    -- Hız Sınırlandırması (Max 300 olarak ayarlandı, dilersen değiştirebilirsin)
     speedBox.FocusLost:Connect(function()
         local num = tonumber(speedBox.Text)
         if num and num > 0 then
+            if num > 300 then 
+                num = 300 
+                speedBox.Text = tostring(num)
+            end
             baseSpeed = num
             savedSpeed = num
             if flying then flySpeed = baseSpeed end
