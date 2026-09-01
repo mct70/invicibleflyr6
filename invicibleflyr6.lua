@@ -1,5 +1,4 @@
 local savedSpeed = 50
-local targetKey = Enum.KeyCode.LeftAlt
 
 local function gui()
     local Players = game:GetService("Players")
@@ -14,7 +13,6 @@ local function gui()
     local baseSpeed = savedSpeed
     local flySpeed = baseSpeed
     local flying = false
-    local isOpen = false
     local forwardHold = 0
     local inputFlags = { forward = false, back = false, left = false, right = false, up = false, down = false }
 
@@ -106,38 +104,29 @@ local function gui()
     end
 
     toggleButton.MouseButton1Click:Connect(function()
-        isOpen = not isOpen
-        if isOpen then
-            startFlying()
-            toggleButton.Text = "Fly ON"
-        else
+        if flying then
             stopFlying()
             toggleButton.Text = "Fly OFF"
+        else
+            startFlying()
+            toggleButton.Text = "Fly ON"
         end
     end)
 
     UserInputService.InputBegan:Connect(function(input, gameProcessed)
-        if gameProcessed then return end 
-        if input.KeyCode == targetKey then
-            isOpen = not isOpen 
-            if isOpen then
+            if input.KeyCode == Enum.KeyCode.LeftAlt then
                 startFlying()
                 toggleButton.Text = "Fly ON"
+                
             else
-                stopFlying()
+                stopFliying()
                 toggleButton.Text = "Fly OFF"
             end
-        end
     end)
-
-    -- Hız Sınırlandırması (Max 300 olarak ayarlandı, dilersen değiştirebilirsin)
+    
     speedBox.FocusLost:Connect(function()
         local num = tonumber(speedBox.Text)
         if num and num > 0 then
-            if num > 300 then 
-                num = 300 
-                speedBox.Text = tostring(num)
-            end
             baseSpeed = num
             savedSpeed = num
             if flying then flySpeed = baseSpeed end
@@ -152,8 +141,8 @@ local function gui()
         if input.KeyCode == Enum.KeyCode.S then inputFlags.back = true end
         if input.KeyCode == Enum.KeyCode.A then inputFlags.left = true end
         if input.KeyCode == Enum.KeyCode.D then inputFlags.right = true end
-        if input.KeyCode == Enum.KeyCode.Space then inputFlags.up = true end
-        if input.KeyCode == Enum.KeyCode.LeftControl then inputFlags.down = true end
+        if input.KeyCode == Enum.KeyCode.E then inputFlags.up = true end
+        if input.KeyCode == Enum.KeyCode.Q then inputFlags.down = true end
     end)
 
     UserInputService.InputEnded:Connect(function(input)
@@ -161,8 +150,8 @@ local function gui()
         if input.KeyCode == Enum.KeyCode.S then inputFlags.back = false end
         if input.KeyCode == Enum.KeyCode.A then inputFlags.left = false end
         if input.KeyCode == Enum.KeyCode.D then inputFlags.right = false end
-        if input.KeyCode == Enum.KeyCode.Space then inputFlags.up = false end
-        if input.KeyCode == Enum.KeyCode.LeftControl then inputFlags.down = false end
+        if input.KeyCode == Enum.KeyCode.E then inputFlags.up = false end
+        if input.KeyCode == Enum.KeyCode.Q then inputFlags.down = false end
     end)
 
     RunService.RenderStepped:Connect(function(dt)
