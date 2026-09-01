@@ -1,6 +1,3 @@
---[[
-	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
-]]
 local savedSpeed = 50
 local targetKey = Enum.KeyCode.LeftAlt
 
@@ -17,6 +14,7 @@ local function gui()
     local baseSpeed = savedSpeed
     local flySpeed = baseSpeed
     local flying = false
+    local isOpen = false
     local forwardHold = 0
     local inputFlags = { forward = false, back = false, left = false, right = false, up = false, down = false }
 
@@ -107,16 +105,19 @@ local function gui()
         stopAll()
     end
 
+    -- Butona tıklandığında aç/kapat
     toggleButton.MouseButton1Click:Connect(function()
-        if flying then
-            stopFlying()
-            toggleButton.Text = "Fly OFF"
-        else
+        isOpen = not isOpen
+        if isOpen then
             startFlying()
             toggleButton.Text = "Fly ON"
+        else
+            stopFlying()
+            toggleButton.Text = "Fly OFF"
         end
     end)
 
+    -- Sol Alt tuşuna basıldığında aç/kapat
     UserInputService.InputBegan:Connect(function(input, gameProcessed)
         if gameProcessed then return end 
         if input.KeyCode == targetKey then
