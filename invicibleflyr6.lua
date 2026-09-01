@@ -116,11 +116,11 @@ local function gui()
     UserInputService.InputBegan:Connect(function(input, gameProcessed)
         if gameProcessed then return end
         if input.KeyCode == Enum.KeyCode.LeftAlt then
-            startFlying()
-            toggleButton.Text = "Fly ON"    
+            stopFliying()
+            toggleButton.Text = "Fly OFF"    
         else
-                stopFliying()
-                toggleButton.Text = "Fly OFF"
+            startFlying()
+            toggleButton.Text = "Fly ON"
         end
     end)
     
