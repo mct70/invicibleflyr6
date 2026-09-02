@@ -113,17 +113,6 @@ local function gui()
         end
     end)
 
-    UserInputService.InputBegan:Connect(function(input, gameProcessed)
-        if gameProcessed then return end
-        if input.KeyCode == Enum.KeyCode.LeftAlt then
-            stopFliying()
-            toggleButton.Text = "Fly OFF"    
-        else
-            startFlying()
-            toggleButton.Text = "Fly ON"
-        end
-    end)
-    
     speedBox.FocusLost:Connect(function()
         local num = tonumber(speedBox.Text)
         if num and num > 0 then
